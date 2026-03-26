@@ -1,12 +1,21 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 from .serializer import UserStudentSerializer
-from .models import StudentUser
+
+from .models import StudentUser, LeveledAPIKey
+from .permission import UserAPIKey, AdminAPIKey
+from rest_framework_api_key.permissions import BaseHasAPIKey
+
+# 3uF5hrfE.9SK1iGnFq05bI1ToaZnbCMcQewL1jKO0 - Admin
+# 7ZgcjXfc.K5IRcDoJW4NYptsivbHHYSxlksRfwsI3 - User
 from random import randint
-    
+
+class HasLeveledAPIKey(BaseHasAPIKey):
+    model = LeveledAPIKey
 
 @api_view(['GET', 'POST'])
+@permission_classes([UserAPIKey | AdminAPIKey])
 def view_user(request):
     # get requsts of student user account 
     if(request.method == 'GET'):
@@ -29,10 +38,20 @@ def view_user(request):
         
 
         if(serializer.is_valid()):
-            serializer.save(idNum=idRand)
+            student = serializer.save(idNum=idRand)
+
+            api_key_name = f'Key for ${student.username}'
+            api_key_instance, key_token = LeveledAPIKey.objects.create_key(
+                name=api_key_name,
+                student=student,
+                level='USER'
+            )
+
             return Response({
                 'success': True,
                 'data': serializer.data,
+                'message': 'Save this and don\'t show it to ANYONE',
+                'api_key': key_token
             }, status = status.HTTP_201_CREATED)
         else:
             return Response({
@@ -65,6 +84,7 @@ def put_user(request, idNum):
         }, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['DELETE'])
+@permission_classes([AdminAPIKey])
 def delete_user(request, idNum):
     try:
         instanceStudent = StudentUser.objects.get(idNum=idNum)

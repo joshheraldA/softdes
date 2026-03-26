@@ -117,6 +117,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Added by Automation Script
-INSTALLED_APPS += ['rest_framework', 'corsheaders', 'api']
+INSTALLED_APPS += ['rest_framework', 'corsheaders', 'api', 'rest_framework_api_key']
 MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
 CORS_ALLOW_ALL_ORIGINS = True
