@@ -4,22 +4,23 @@ from rest_framework import status
 from .serializer import UserStudentSerializer
 
 from .models import StudentUser, LeveledAPIKey
-from .permission import UserAPIKey, AdminAPIKey
+from .permission import UserAndAdminAPIKey, AdminAPIKey
 from rest_framework_api_key.permissions import BaseHasAPIKey
 
-# 3uF5hrfE.9SK1iGnFq05bI1ToaZnbCMcQewL1jKO0 - Admin
-# 7ZgcjXfc.K5IRcDoJW4NYptsivbHHYSxlksRfwsI3 - User
 from random import randint
+
+# k2Fnz6QF.FX4vHYnZBKjgnL8r9NPCpQFGs3uCqrIY - Admin
+# iNgApKUo.prslIn0uQgJIDbabJMxD5RxCZnNirAKl - User
 
 class HasLeveledAPIKey(BaseHasAPIKey):
     model = LeveledAPIKey
 
 @api_view(['GET', 'POST'])
-@permission_classes([UserAPIKey | AdminAPIKey])
+@permission_classes([UserAndAdminAPIKey])
 def view_user(request):
     # get requsts of student user account 
     if(request.method == 'GET'):
-        studentUser = StudentUser.objects.all()
+        studentUser = StudentUser.objects.all() 
         data = UserStudentSerializer(studentUser, many=True).data
         return Response({
             'success': True,
