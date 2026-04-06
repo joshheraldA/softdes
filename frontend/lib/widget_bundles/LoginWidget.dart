@@ -18,6 +18,7 @@ class _LoginWidgetState extends State<LoginWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   bool confirm = false;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -93,24 +94,30 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ),
 
-              FancyButton(
-                function: () async {
-                  confirm = await login(
-                    emailController.text,
-                    passwordController.text,
-                  );
-                  emailController.clear();
-                  passwordController.clear();
+              _isLoading
+                  ? CircularProgressIndicator()
+                  : FancyButton(
+                      function: () async {
+                        setState(() => _isLoading = true);
 
-                  if (confirm) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => HomePage()),
-                    );
-                  }
-                },
-                text: 'Login',
-              ),
+                        confirm = await login(
+                          emailController.text,
+                          passwordController.text,
+                        );
+                        emailController.clear();
+                        passwordController.clear();
+
+                        setState(() => _isLoading = false);
+
+                        if (confirm) {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => HomePage()),
+                          );
+                        }
+                      },
+                      text: 'Login',
+                    ),
             ],
           ),
         ),

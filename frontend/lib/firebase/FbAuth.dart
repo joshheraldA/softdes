@@ -16,15 +16,17 @@ Future<bool> login(String email, String password) async {
   }
 }
 
-Future<void> register(String email, String password) async {
+Future<bool> register(String email, String password) async {
   try {
     UserCredential cred = await auth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
     print("Registered: ${cred.user?.email}");
+    return true;
   } on FirebaseAuthException catch (e) {
     print("Error: ${e.message}");
+    return false;
   }
 }
 

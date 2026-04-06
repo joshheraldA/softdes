@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/firebase/FbAuth.dart';
+import 'package:frontend/pages/LoginPage.dart';
 import 'package:frontend/widgets/FancyButton.dart';
 import 'package:frontend/widgets/FancyHeader.dart';
 import 'package:frontend/widgets/FancyTextField.dart';
@@ -91,12 +92,17 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                 ),
               ),
               FancyButton(
-                function: () {
-                  register(emailController.text, passwordController.text);
+                function: () async{
+                  bool confirm = await register(emailController.text, passwordController.text);
                   emailController.clear();
                   passwordController.clear();
+                  if(confirm){
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => LoginPage()),
+                    );
+                  }
 
-                  
                 },
                 text: 'Register',
               ),
