@@ -39,7 +39,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FancyHeader(UserText: 'Login'),
+              FancyHeader(UserText: 'Register'),
               Container(
                 padding: EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width * 0.2,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/firebase/FbAuth.dart';
+import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/widgets/FancyButton.dart';
 import 'package:frontend/widgets/FancyHeader.dart';
 import 'package:frontend/widgets/FancyTextField.dart';
@@ -16,7 +17,7 @@ class LoginWidget extends StatefulWidget {
 class _LoginWidgetState extends State<LoginWidget> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  
+  bool confirm = false;
 
   @override
   Widget build(BuildContext context) {
@@ -84,9 +85,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                       ),
                       onPressed: () {
                         setState(() {
-                           widget.onSwitchToRegister();
+                          widget.onSwitchToRegister();
                         });
-                       
                       },
                     ),
                   ],
@@ -94,10 +94,20 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
 
               FancyButton(
-                function: () {
-                  register(emailController.text, passwordController.text);
+                function: () async {
+                  confirm = await login(
+                    emailController.text,
+                    passwordController.text,
+                  );
                   emailController.clear();
                   passwordController.clear();
+
+                  if (confirm) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => HomePage()),
+                    );
+                  }
                 },
                 text: 'Login',
               ),
