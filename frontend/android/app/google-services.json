@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1013663126232",
+    "project_id": "joshdoctorplayhouse",
+    "storage_bucket": "joshdoctorplayhouse.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1013663126232:android:d2b817121b931caca17dad",
+        "android_client_info": {
+          "package_name": "com.example.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNgEzUyVKg-mV7PHbfiz6P6mHYjf24PaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

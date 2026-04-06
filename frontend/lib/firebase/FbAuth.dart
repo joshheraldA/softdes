@@ -1,0 +1,43 @@
+import 'package:firebase_auth/firebase_auth.dart';
+
+final auth = FirebaseAuth.instance;
+
+Future<void> login(String email, String password) async {
+  try {
+    UserCredential cred = await auth.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    print("Logged in: ${cred.user?.email}");
+  } on FirebaseAuthException catch (e) {
+    print("Error: ${e.message}");
+  }
+}
+
+Future<void> register(String email, String password) async {
+  try {
+    UserCredential cred = await auth.createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    print("Registered: ${cred.user?.email}");
+  } on FirebaseAuthException catch (e) {
+    print("Error: ${e.message}");
+  }
+}
+
+String? getUser(){
+  User? user = auth.currentUser;
+  if(user != null){
+    return user.displayName;
+  }
+  return null;  
+}
+
+String? getEmail(){
+   User? user = auth.currentUser;
+  if(user != null){
+    return user.email;
+  }
+  return null;  
+}
