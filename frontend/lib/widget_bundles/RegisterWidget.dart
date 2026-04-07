@@ -105,6 +105,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
 
                 },
                 text: 'Register',
+                buttonColor: Colors.green,
               ),
             ],
           ),

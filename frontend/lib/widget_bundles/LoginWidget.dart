@@ -104,6 +104,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                           emailController.text,
                           passwordController.text,
                         );
+
+
                         emailController.clear();
                         passwordController.clear();
 
@@ -117,6 +119,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         }
                       },
                       text: 'Login',
+                      buttonColor: Colors.green,
                     ),
             ],
           ),
