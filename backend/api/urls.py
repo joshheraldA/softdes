@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.urls import path, include
 from . import views 
 from .controller import firebase_api
@@ -7,6 +8,16 @@ urlpatterns = [
     path('delete-user/<int:idNum>', views.delete_user, name='deleteuser'),
     path('filter-user/', views.filter_user, name='filteruser'),
     path('users/', firebase_api.create_user, name='user' ),
+=======
+from django.urls import path
+from api.controller import user
+
+
+
+urlpatterns = [
+    path('get-user/', user.get_user, name='getuser'),
+    path('post-user/', user.post_user, name='postuser')
+>>>>>>> 8428f2e (created a v2 of our api)
 ]
 
 
