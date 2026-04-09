@@ -42,8 +42,9 @@ class CheckCommandHandler(AbstractHandler):
         handle(None) -> bool: 
             handles the check command request and performs the given function     
     """
-    def __init__(self, request: check_command.Invoker):
-        self.request = request
+    def __init__(self, request: check_command.CheckCommand):
+        self.invoker = check_command.Invoker()
+        self.invoker.set_command(request)
      
     def handle(self) -> bool:
         """
@@ -51,24 +52,21 @@ class CheckCommandHandler(AbstractHandler):
         Args: 
             None
         Returns::
-            bool: True if the checker that the Invoker invokes is met, False otherwise
+            result (bool): True if the checker that the Invoker invokes is met, False otherwise
         """
+        result = (self.invoker).execute_command()     
+
         super().handle()
-        return (self.request).execute_command()        
+
+        return result
 
 
 if __name__ == '__main__':
     email1 = "joshherald19@gmail.com"
     email2 = "24100598@usc.edu.ph"
 
-    invoker1 = check_command.Invoker()
-    invoker2 = check_command.Invoker()
-
-    invoker1.set_command(check_command.CheckEmail(email1))
-    check_command_handler1 = CheckCommandHandler(invoker1)
-
-    invoker2.set_command(check_command.CheckEmail(email2))
-    check_command_handler2 = CheckCommandHandler(invoker2)
+    check_command_handler1 = CheckCommandHandler(check_command.CheckEmailCommand(email1))
+    check_command_handler2 = CheckCommandHandler(check_command.CheckEmailCommand(email2))
 
 
     check_command_handler1.set_next_handler(check_command_handler2)
