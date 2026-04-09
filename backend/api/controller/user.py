@@ -6,6 +6,7 @@ from api.firebase import db
 from api.permission import AdminPermissions
 
 from api.controller.design.idfactory import IdFactory
+from .design import check_command
 
 @api_view(['POST'])
 @permission_classes([AdminPermissions])
@@ -19,11 +20,23 @@ def create_user(request):
             'message': "require email field"
         }, status=status.HTTP_400_BAD_REQUEST)
 
+    # check if email is valid 
+    emailChecker = check_command.CheckEmailCommand(data["email"])
+    invoker = check_command.Invoker()
+    invoker.set_command(emailChecker)
+
+    if not invoker.execute_command():
+        return Response({
+            'success': False,
+            "message": "Not a valid email"
+        })
+
     doc_ref = db.collection('users').document()
     doc_ref.set({
         "username": data['username'],
         "cesPoints": data['cesPoints'],
-        "id": factoryId.create_id()
+        "id": factoryId.create_id(),
+        'email': data["email"]
     })
 
     return Response({
