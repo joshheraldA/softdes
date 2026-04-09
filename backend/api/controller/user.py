@@ -29,7 +29,7 @@ def create_user(request):
         return Response({
             'success': False,
             "message": "Not a valid email"
-        })
+        }, status=status.HTTP_400_BAD_REQUEST)
 
     doc_ref = db.collection('users').document()
     doc_ref.set({
@@ -42,7 +42,7 @@ def create_user(request):
     return Response({
         'success': True,
         'message': data
-    })
+    }, status=status.HTTP_201_CREATED)
 # from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.response import Response
 # from rest_framework import status

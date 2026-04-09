@@ -57,6 +57,7 @@ class CheckCommandHandler(AbstractHandler):
         result = (self.invoker).execute_command()     
 
         super().handle()
+<<<<<<< HEAD
 
         return result
 
@@ -72,3 +73,7 @@ if __name__ == '__main__':
     check_command_handler1.set_next_handler(check_command_handler2)
 
     check_command_handler1.handle()
+=======
+
+        return result
+>>>>>>> 6099c21 (handler classes refined)
