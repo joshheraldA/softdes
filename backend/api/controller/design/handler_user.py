@@ -57,23 +57,5 @@ class CheckCommandHandler(AbstractHandler):
         result = (self.invoker).execute_command()     
 
         super().handle()
-<<<<<<< HEAD
 
         return result
-
-
-if __name__ == '__main__':
-    email1 = "joshherald19@gmail.com"
-    email2 = "24100598@usc.edu.ph"
-
-    check_command_handler1 = CheckCommandHandler(check_command.CheckEmailCommand(email1))
-    check_command_handler2 = CheckCommandHandler(check_command.CheckEmailCommand(email2))
-
-
-    check_command_handler1.set_next_handler(check_command_handler2)
-
-    check_command_handler1.handle()
-=======
-
-        return result
->>>>>>> 6099c21 (handler classes refined)
