@@ -1,10 +1,13 @@
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
 import firebase_admin
 from firebase_admin import credentials, firestore
-import os 
 
+from pathlib import Path
+import os
 
-cred = credentials.Certificate("/Users/twsty/Documents/jfet joshs field effect transistor/softdes/backend/api/private/joshywoshy.json")
+BASE_DIR = Path(__file__).resolve().parent
+
+JSON_PATH = os.path.join(BASE_DIR, "private", "firebase_connect.json")
+
+cred = credentials.Certificate(JSON_PATH)
 firebase_admin.initialize_app(cred)
 db = firestore.client()

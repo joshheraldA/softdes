@@ -1,12 +1,14 @@
 from random import randint, choices
 import string
 
-class Factory:
+class IdFactory:
     def __init__(self, length=21, allow_letters=False):
         """
         Args:
             length (int, optional): Number of digit in the id. Defaults to 21
             allow_letters (boolean, optional): Sets it so that the id can accomodate letters. Defaults to False
+        Funcions:
+            create_id (int): Creates an id, no parameters required
         """
         self.length = length
         self.allow_letters = allow_letters
@@ -39,6 +41,3 @@ class Factory:
         return result   # the id 
 
                 
-
-factory = Factory(allow_letters=True)
-print(factory.create_id())
