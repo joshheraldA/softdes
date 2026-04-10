@@ -129,30 +129,3 @@ class WordFilter(CheckCommand):
         else:
             print("ok yeah this works")
             return True
-        
-
-    
-
-
-
-    
-if __name__ == '__main__':
-    invoker = Invoker()
-
-    emailChecker = CheckEmailCommand("samisgay@email.com")
-    invoker.set_command(emailChecker)
-    invoker.execute_command()
-
-    UsernameChecker = CheckUsernameCommand("samisgay@email.com")
-    invoker.set_command(UsernameChecker)
-    invoker.execute_command()
-
-
-
-    emailChecker2 = CheckEmailCommand("24100598@usc.edu.ph")
-    invoker.set_command(emailChecker2)
-    invoker.execute_command()
-
-    UsernameChecker = CheckUsernameCommand("24100598@usc.edu.ph")
-    invoker.set_command(UsernameChecker)
-    invoker.execute_command()
