@@ -36,7 +36,7 @@ def create_user(request):
     doc_ref = db.collection('users').document()
     doc_ref.set({
         "username": data['username'],
-        "cesPoints": data['cesPoints'],
+        "cesPoints": 0,
         "id": factoryId.create_id(),
         'email': data["email"]
     })
