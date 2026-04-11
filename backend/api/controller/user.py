@@ -2,11 +2,15 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 
+from firebase_admin import auth
+
 from api.firebase import db
 from api.permission import AdminPermissions
 
 from api.controller.design.idfactory import IdFactory
 from .design import check_command
+
+# Api-Key ho4f2fm2.WYyNAfuaYikL9QvUycDIz41FD1G18zEc - Admin
 
 @api_view(['POST'])
 @permission_classes([AdminPermissions])
@@ -30,6 +34,10 @@ def create_user(request):
             'success': False,
             "message": "Not a valid email"
         }, status=status.HTTP_400_BAD_REQUEST)
+
+    # --- for authentication database --- 
+
+
 
     doc_ref = db.collection('users').document()
     doc_ref.set({
