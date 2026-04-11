@@ -4,9 +4,6 @@ import 'package:frontend/widgets/FancyButton.dart';
 import 'package:frontend/widgets/FancyHeader.dart';
 import 'package:frontend/widgets/FancyTextField.dart';
 
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 class LoginWidget extends StatefulWidget {
   final VoidCallback onSwitchToRegister;
 
@@ -23,9 +20,8 @@ class _LoginWidgetState extends State<LoginWidget> {
   bool confirm = false;
   bool _isLoading = false;
 
-  Future<bool> login(String username, String email, String password) async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/v2/post-user/');
 
+<<<<<<< HEAD
     try {
       final response = await http.post(
         url,
@@ -49,9 +45,12 @@ class _LoginWidgetState extends State<LoginWidget> {
       return false;
     }
   }
+=======
+>>>>>>> 22cc8ba (Refind the UI)
 
   @override
   Widget build(BuildContext context) {
+    final double responsiveWidth = 0.25;
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,
@@ -71,13 +70,14 @@ class _LoginWidgetState extends State<LoginWidget> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.06),
               FancyHeader(userText: 'Login', textSize: 60),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Container(
                 padding: EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * responsiveWidth,
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: FancyTextField(
                   hint: 'Enter username',
@@ -88,7 +88,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
               Container(
                 padding: EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * responsiveWidth,
                 height:
                     MediaQuery.of(context).size.height *
                     0.06, // gets the size of the web browse
@@ -102,7 +102,7 @@ class _LoginWidgetState extends State<LoginWidget> {
 
               Container(
                 padding: EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * responsiveWidth,
                 height:
                     MediaQuery.of(context).size.height *
                     0.06, // gets the size of the web browse
@@ -115,7 +115,7 @@ class _LoginWidgetState extends State<LoginWidget> {
               ),
 
               Container(
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * (responsiveWidth - 0.02),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -142,20 +142,14 @@ class _LoginWidgetState extends State<LoginWidget> {
                 ),
               ),
 
+              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
               _isLoading
                   ? CircularProgressIndicator()
                   : FancyButton(
                       function: () async {
                         setState(() => _isLoading = true);
 
-                        confirm = await login(
-                          usernameController.text,
-                          emailController.text,
-                          passwordController.text,
-                        );
-
-                        if (!mounted) return;
-                        setState(() => _isLoading = false);
+                        print("HELLO");
 
                         if (confirm) {
                           Navigator.pushReplacement(

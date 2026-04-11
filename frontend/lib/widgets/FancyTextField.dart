@@ -77,7 +77,7 @@ class _FancyTextFieldState extends State<FancyTextField> {
             border: InputBorder.none, // border handled by Container
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
-              vertical: 14,
+              vertical: 12,
             ),
           ),
         ),

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend/firebase/FbAuth.dart';
-import 'package:frontend/pages/HomePage.dart';
+// import 'package:frontend/firebase/FbAuth.dart';
 import 'package:frontend/pages/LoginPage.dart';
 import 'package:frontend/widgets/FancyButton.dart';
 import 'package:frontend/widgets/FancyHeader.dart';
 import 'package:frontend/widgets/FancyTextField.dart';
+
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class RegisterWidget extends StatefulWidget {
@@ -49,8 +50,40 @@ class _RegisterWidgetState extends State<RegisterWidget> {
   }
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final usernameController = TextEditingController();
+  bool confirm = false;
+  bool _isLoading = false;
+
+  Future<bool> login(String username, String email, String password) async {
+    final url = Uri.parse('http://127.0.0.1:8000/api/v2/post-user/');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Api-Key ho4f2fm2.WYyNAfuaYikL9QvUycDIz41FD1G18zEc",
+        },
+        body: jsonEncode({'email': email, 'username': username}),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Success! You might want to save a token here
+        return true;
+      } else {
+        print("Error is ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      print("Error occured ${e}");
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final double widthContainer = 0.25;
+
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5,
@@ -70,13 +103,25 @@ class _RegisterWidgetState extends State<RegisterWidget> {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment:  MainAxisAlignment.start,
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.06),
               FancyHeader(userText: 'Register', textSize: 60),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.03),
+
               Container(
                 padding: EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * widthContainer,
+                height: MediaQuery.of(context).size.height * 0.06,
+                child: FancyTextField(
+                  hint: 'Enter username',
+                  label: 'Username',
+                  controller: usernameController,
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(8),
+                width: MediaQuery.of(context).size.width * widthContainer,
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: FancyTextField(
                   hint: 'Enter email',
@@ -86,7 +131,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               ),
               Container(
                 padding: EdgeInsets.all(8),
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * widthContainer,
                 height: MediaQuery.of(context).size.height * 0.06,
                 child: FancyTextField(
                   hint: 'Enter Password',
@@ -97,7 +142,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               ),
 
               Container(
-                width: MediaQuery.of(context).size.width * 0.2,
+                width: MediaQuery.of(context).size.width * (widthContainer - 0.02),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -123,7 +168,11 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                   ],
                 ),
               ),
-              FancyButton(
+
+          SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+          _isLoading
+              ? CircularProgressIndicator()
+              : FancyButton(
                 function: () async {
                   Map<String,dynamic>? login_acc = await login(
                     emailController.text,
@@ -140,6 +189,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                     );
                   }
                 },
+            
                 text: 'Register',
                 buttonColor: Colors.green,
               ),
