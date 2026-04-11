@@ -81,14 +81,13 @@ class Invoker:
             return self._command.execute()
         
 class CheckUsernameCommand(CheckCommand):
-    def __init__(self, email : str):
-        self.email = email
+    def __init__(self, username : str):
+        self.username = username
+
     def execute(self):
-        invoker = Invoker()
-        whatever = WordFilter("@", self.email)
-        invoker.set_command(whatever)
-        invoker.execute_command()
-        
+        filter_command = WordFilter("@", self.username)
+        return filter_command.execute()
+    
 class WordFilter(CheckCommand):
     with open("FORBIDDENWORDSLIST.txt", "r") as file:
         temp = file.readlines()

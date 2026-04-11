@@ -25,22 +25,23 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         height: MediaQuery.of(context).size.height * 0.6,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(20),
             color: const Color.fromARGB(255, 255, 255, 255),
             boxShadow: [
               BoxShadow(
-                color: const Color.fromARGB(99, 188, 188, 188),
+                color: const Color.fromARGB(96, 62, 62, 62),
                 blurRadius: .2,
-                offset: Offset(1, 1),
+                offset: Offset(0, 2),
                 spreadRadius: 1.0,
               ),
             ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FancyHeader(UserText: 'Register'),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              FancyHeader(userText: 'Register', textSize: 60),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
               Container(
                 padding: EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width * 0.2,
@@ -81,28 +82,29 @@ class _RegisterWidgetState extends State<RegisterWidget> {
                           color: const Color.fromARGB(255, 147, 147, 147),
                         ),
                       ),
-                      onPressed: (){
+                      onPressed: () {
                         setState(() {
                           widget.onSwitchToLogin();
                         });
-                        
                       },
                     ),
                   ],
                 ),
               ),
               FancyButton(
-                function: () async{
-                  bool confirm = await register(emailController.text, passwordController.text);
+                function: () async {
+                  bool confirm = await register(
+                    emailController.text,
+                    passwordController.text,
+                  );
                   emailController.clear();
                   passwordController.clear();
-                  if(confirm){
+                  if (confirm) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (_) => LoginPage()),
                     );
                   }
-
                 },
                 text: 'Register',
                 buttonColor: Colors.green,

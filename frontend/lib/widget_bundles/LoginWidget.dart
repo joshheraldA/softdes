@@ -28,7 +28,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         height: MediaQuery.of(context).size.height * 0.6,
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(3),
+            borderRadius: BorderRadius.circular(20),
             color: const Color.fromARGB(255, 255, 255, 255),
             boxShadow: [
               BoxShadow(
@@ -40,10 +40,11 @@ class _LoginWidgetState extends State<LoginWidget> {
             ],
           ),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              FancyHeader(UserText: 'Login'),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.07),
+              FancyHeader(userText: 'Login', textSize: 60),
+              SizedBox(height: MediaQuery.of(context).size.height * 0.08),
               Container(
                 padding: EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width * 0.2,
@@ -57,7 +58,9 @@ class _LoginWidgetState extends State<LoginWidget> {
               Container(
                 padding: EdgeInsets.all(8),
                 width: MediaQuery.of(context).size.width * 0.2,
-                height: MediaQuery.of(context).size.height * 0.06,
+                height:
+                    MediaQuery.of(context).size.height *
+                    0.06, // gets the size of the web browse
                 child: FancyTextField(
                   hint: 'Enter Password',
                   label: 'Password',
@@ -104,7 +107,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                           emailController.text,
                           passwordController.text,
                         );
-
 
                         emailController.clear();
                         passwordController.clear();
