@@ -80,17 +80,51 @@ class Invoker:
         if self._command:
             return self._command.execute()
         
+class CheckUsernameCommand(CheckCommand):
+    def __init__(self, username : str):
+        self.username = username
 
+    def execute(self):
+        filter_command = WordFilter("@", self.username)
+        return filter_command.execute()
     
-if __name__ == '__main__':
-    invoker = Invoker()
+class WordFilter(CheckCommand):
+    with open("FORBIDDENWORDSLIST.txt", "r") as file:
+        temp = file.readlines()
+    """this reads from the forbiddenwordslist file line by line"""
+    FORBIDDEN_WORDS = [word.strip() for word in temp]
+    """this makes it so the whitespaces and the newlines disappear and shi"""
 
-    emailChecker = CheckEmailCommand("samisgay@email.com")
-    invoker.set_command(emailChecker)
-    invoker.execute_command()
+   
+    def __init__(self, delimiter : str, texts : str):
+        self.delimiter = delimiter
+        self.forbiddenWords = [word.lower() for word in WordFilter.FORBIDDEN_WORDS]
+        self.text = texts
 
-
-
-    emailChecker2 = CheckEmailCommand("24100598@usc.edu.ph")
-    invoker.set_command(emailChecker2)
-    invoker.execute_command()
+    def extract(self, text : str) -> str:
+        """This thing just extracts whatever comes before the delimiter and stuff"""
+        index = text.find(self.delimiter)
+        """If it finds the delimiter in the passed string, it will return an index to where the delimiter is and then it will return everything before the index
+            if it cant find the delimiter it just passes the entire string raw and unchanged
+        """
+        if index != -1:
+            return text[:index]
+        else:
+            return text
+        
+    def hasForbiddenWord(self, text : str) -> bool:
+        """checks if the seperated partition is free from slurs, if free then it will return true otherwise false"""
+        partition = self.extract(text).lower()
+        check = any(word in partition for word in self.forbiddenWords)
+        return check
+        
+    def __iter__(self):
+        return iter(self.forbiddenWords)
+    
+    def execute(self) -> bool:
+        if self.hasForbiddenWord(self.text):
+            print("you said bad word bro make it again")
+            return False
+        else:
+            print("ok yeah this works")
+            return True

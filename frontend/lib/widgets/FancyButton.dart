@@ -16,15 +16,17 @@ class FancyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width*0.1,
-      height: MediaQuery.of(context).size.height*0.06,
+      width: MediaQuery.of(context).size.width * 0.1,
+      height: MediaQuery.of(context).size.height * 0.06,
       padding: EdgeInsets.all(10),
       child: ElevatedButton(
         onPressed: function,
         child: Text(text, style: TextStyle(color: textColor)),
         style: ElevatedButton.styleFrom(
           backgroundColor: buttonColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(5))),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
         ),
       ),
     );

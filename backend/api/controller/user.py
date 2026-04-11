@@ -8,7 +8,9 @@ from api.firebase import db
 from api.permission import AdminPermissions
 
 from api.controller.design.idfactory import IdFactory
-from .design import check_command
+
+from .design.check_command import CheckEmailCommand, CheckUsernameCommand
+from .design.handler_user import CheckCommandHandler
 
 # Api-Key ho4f2fm2.WYyNAfuaYikL9QvUycDIz41FD1G18zEc - Admin
 
@@ -24,15 +26,15 @@ def create_user(request):
             'message': "require email field"
         }, status=status.HTTP_400_BAD_REQUEST)
 
-    # check if email is valid 
-    emailChecker = check_command.CheckEmailCommand(data["email"])
-    invoker = check_command.Invoker()
-    invoker.set_command(emailChecker)
+    # check if email is valid and username is valid 
+    checkCommandHandler1 = CheckCommandHandler(CheckEmailCommand(data['email']))
+    checkCommandHandler2 = CheckCommandHandler(CheckUsernameCommand(data['username']))
 
-    if not invoker.execute_command():
+    checkCommandHandler1.set_next_handler(checkCommandHandler2)
+    if not checkCommandHandler1.handle():
         return Response({
             'success': False,
-            "message": "Not a valid email"
+            "message": "Something went wrong with the inputs"
         }, status=status.HTTP_400_BAD_REQUEST)
 
     # --- for authentication database --- 
@@ -42,7 +44,7 @@ def create_user(request):
     doc_ref = db.collection('users').document()
     doc_ref.set({
         "username": data['username'],
-        "cesPoints": data['cesPoints'],
+        "cesPoints": 0,
         "id": factoryId.create_id(),
         'email': data["email"]
     })
@@ -51,6 +53,8 @@ def create_user(request):
         'success': True,
         'message': data
     }, status=status.HTTP_201_CREATED)
+
+
 # from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.response import Response
 # from rest_framework import status

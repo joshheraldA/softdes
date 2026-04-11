@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-import check_command
+from . import check_command
 
 
 class Handler(ABC):
@@ -30,7 +30,7 @@ class AbstractHandler(Handler):
     def handle(self):
         if self._next_handler:
             return self._next_handler.handle()
-        
+        return True
 
 class CheckCommandHandler(AbstractHandler):
     """
@@ -46,7 +46,7 @@ class CheckCommandHandler(AbstractHandler):
         self.invoker = check_command.Invoker()
         self.invoker.set_command(request)
      
-    def handle(self) -> bool:
+    def handle(self) -> bool:   
         """
         this handles the check command request and performs the given function
         Args: 
@@ -56,6 +56,12 @@ class CheckCommandHandler(AbstractHandler):
         """
         result = (self.invoker).execute_command()     
 
-        super().handle()
+        if not result:
+            return False
+        
 
+        previous_result = super().handle()
+        if not previous_result:
+            return False 
+        
         return result

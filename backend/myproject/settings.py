@@ -120,3 +120,4 @@ STATIC_URL = 'static/'
 INSTALLED_APPS += ['rest_framework', 'corsheaders', 'api', 'rest_framework_api_key']
 MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')
 CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2']
