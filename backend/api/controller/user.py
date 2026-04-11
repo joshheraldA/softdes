@@ -68,6 +68,39 @@ def create_user(request):
     }, status=status.HTTP_201_CREATED)
 
 
+@api_view(['POST'])
+@permission_classes([AdminPermissions])
+def fetch_user_data(request): # this function will return user data after signing in.
+    data = request.data
+
+    if not data['id']:
+        return Response({
+            'success': False,
+            'message': "NEED ID"
+        }, status=status.HTTP_400_BAD_REQUEST)
+    uid = data['id']
+    
+    users_ref = db.collection('users')
+    query = users_ref.where('id', '==', uid).limit(1).get()
+
+    if not query:
+
+        return Response({
+            'success': False,
+            'message': 'User not found'
+        }, status=status.HTTP_404_NOT_FOUND)
+    
+    user_data = query[0].to_dict()
+    print(user_data)
+    return Response({
+        'success': True,
+        'data': user_data
+    }, status=status.HTTP_200_OK)
+
+
+
+
+
 # from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.response import Response
 # from rest_framework import status

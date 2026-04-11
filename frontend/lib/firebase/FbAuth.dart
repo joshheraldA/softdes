@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final auth = FirebaseAuth.instance;
 
-Future<bool> login(String email, String password) async {
+Future<String?  > login_acc(String email, String password) async {
 
   /* 
 
@@ -18,10 +18,10 @@ Future<bool> login(String email, String password) async {
       password: password,
     );
     print("Logged in: ${cred.user?.email}");
-    return true;
+    return cred.user?.uid;
   } on FirebaseAuthException catch (e) {
     print("Error: ${e.message}");
-    return false;
+    return null;
   }
 }
 

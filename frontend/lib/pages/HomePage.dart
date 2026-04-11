@@ -4,7 +4,9 @@ import 'package:frontend/pages/LoginPage.dart';
 import 'package:frontend/widgets/FancyButton.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String username;
+  final int cesPoints;
+  const HomePage({super.key, required this.username, required this.cesPoints});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,6 +29,8 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Text("Logged in!"),
+            Text("Username: ${widget.username}"),
+            Text("Ces Points: ${widget.cesPoints}"),
             FancyButton(
               function: handleLogout,
               text: "Log out",

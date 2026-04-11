@@ -160,7 +160,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         if (confirm) {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (_) => HomePage()),
+                            MaterialPageRoute(builder: (_) => HomePage(username: 'placeholder',cesPoints:  1)),
                           );
                         }
                       },

@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/firebase/FbAuth.dart';
+import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/pages/LoginPage.dart';
 import 'package:frontend/widgets/FancyButton.dart';
 import 'package:frontend/widgets/FancyHeader.dart';
 import 'package:frontend/widgets/FancyTextField.dart';
+import 'package:http/http.dart' as http;
 
 class RegisterWidget extends StatefulWidget {
   final VoidCallback onSwitchToLogin;
@@ -15,6 +19,34 @@ class RegisterWidget extends StatefulWidget {
 }
 
 class _RegisterWidgetState extends State<RegisterWidget> {
+
+  Future<Map<String, dynamic>?> login(String email, String password) async {
+    String? user_id = await login_acc(email, password);
+
+    final url = Uri.parse('http://127.0.0.1:8000/api/v2/signed-in/');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': "Api-Key ho4f2fm2.WYyNAfuaYikL9QvUycDIz41FD1G18zEc",
+        },
+        body: jsonEncode({'id': user_id}),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        return data;
+      } else {
+        print("Error is ${response.body}");
+        return null;
+      }
+    } catch (e) {
+      print("Error occured ${e}");
+      return null;
+    }
+  }
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   @override
@@ -93,16 +125,18 @@ class _RegisterWidgetState extends State<RegisterWidget> {
               ),
               FancyButton(
                 function: () async {
-                  bool confirm = await register(
+                  Map<String,dynamic>? login_acc = await login(
                     emailController.text,
                     passwordController.text,
                   );
                   emailController.clear();
                   passwordController.clear();
-                  if (confirm) {
+                  final userData = login_acc?['data'];
+                  if (login_acc!=null) {
+                    print(login_acc);
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (_) => LoginPage()),
+                      MaterialPageRoute(builder: (_) => HomePage(username: userData['username'], cesPoints:userData['cesPoints'] ,)),
                     );
                   }
                 },
