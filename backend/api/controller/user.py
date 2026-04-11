@@ -25,6 +25,8 @@ def create_user(request):
             'success': False,
             'message': "require email field"
         }, status=status.HTTP_400_BAD_REQUEST)
+    
+    
 
     # check if email is valid and username is valid 
     checkCommandHandler1 = CheckCommandHandler(CheckEmailCommand(data['email']))
@@ -39,15 +41,26 @@ def create_user(request):
 
     # --- for authentication database --- 
 
+    auth_user = auth.create_user( # creates user in auth
+        email=data['email'],
+        password=data['password'],
+        display_name=data['username']
+    )
+
+    uid = auth_user.uid # returns uid from created user
 
 
     doc_ref = db.collection('users').document()
     doc_ref.set({
         "username": data['username'],
         "cesPoints": 0,
-        "id": factoryId.create_id(),
-        'email': data["email"]
+        "id": uid,
+        'email': data["email"],
     })
+
+    
+
+    
 
     return Response({
         'success': True,

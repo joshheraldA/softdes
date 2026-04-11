@@ -3,6 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 final auth = FirebaseAuth.instance;
 
 Future<bool> login(String email, String password) async {
+
+  /* 
+
+    - you call the endpoint 
+    - you get the data endpoint (insomnia is important because you don't know the name associated to the data)
+    - you iterate through all the data 
+
+
+  */ 
   try {
     UserCredential cred = await auth.signInWithEmailAndPassword(
       email: email,
@@ -22,11 +31,13 @@ Future<bool> register(String email, String password) async {
       email: email,
       password: password,
     );
+    
     print("Registered: ${cred.user?.email}");
     return true;
   } on FirebaseAuthException catch (e) {
     print("Error: ${e.message}");
     return false;
+
   }
 }
 

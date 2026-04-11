@@ -33,11 +33,12 @@ class _LoginWidgetState extends State<LoginWidget> {
           'Content-Type': 'application/json',
           'Authorization': "Api-Key ho4f2fm2.WYyNAfuaYikL9QvUycDIz41FD1G18zEc",
         },
-        body: jsonEncode({'email': email, 'username': username}),
+        body: jsonEncode({'email': email, 'username': username, 'password': password}),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         // Success! You might want to save a token here
+        
         return true;
       } else {
         print("Error is ${response.body}");
