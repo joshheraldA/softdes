@@ -7,7 +7,6 @@ from firebase_admin import auth
 from api.firebase import db
 from api.permission import AdminPermissions
 
-from api.controller.design.idfactory import IdFactory
 
 from .design.check_command import CheckEmailCommand, CheckUsernameCommand
 from .design.handler_user import CheckCommandHandler
@@ -17,7 +16,6 @@ from .design.handler_user import CheckCommandHandler
 @api_view(['POST'])
 @permission_classes([AdminPermissions])
 def create_user(request):
-    factoryId = IdFactory(allow_letters=True, length=15)
     data = request.data
 
     if not data['email']:
@@ -58,10 +56,6 @@ def create_user(request):
         'email': data["email"],
     })
 
-    
-
-    
-
     return Response({
         'success': True,
         'message': data
@@ -73,7 +67,7 @@ def create_user(request):
 def fetch_user_data(request): # this function will return user data after signing in.
     data = request.data
 
-    if not data['id']:
+    if not data.get('id'):
         return Response({
             'success': False,
             'message': "NEED ID"
@@ -138,4 +132,3 @@ def fetch_user_data(request): # this function will return user data after signin
 #     })
 
 #     return Response({"id": doc_ref.id, "message": "User created"}, status=201)
-

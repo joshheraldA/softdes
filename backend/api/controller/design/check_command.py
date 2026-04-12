@@ -1,10 +1,50 @@
 from abc import ABC, abstractmethod
 
+from api.firebase import db
+from firebase_admin import auth
 class CheckCommand(ABC):
 
     @abstractmethod
     def execute(self) -> bool:
         pass
+
+# class CheckPasswordUsername(CheckCommand):
+#     """
+#     checks if username and password is correct
+
+#     Attributes
+#     ----------
+#     username: str
+#         the username of an account
+#     password: str
+#         th password of an account
+
+#     Methods
+#     -------
+#     execute():
+#         Checkcs if the username and password of the account matches
+#     """
+
+#     def __init__(self, username: str, password: str):
+
+#         self.username = username
+#         self.password = password
+
+
+#     def execute(self) -> bool:
+#         users_ref = db.collection('users')
+
+#         query = users_ref.where(filter=FieldFilter('username', '==', self.username)).limit(1).get()
+#         if not query:
+#             return False
+
+#         users_doc = query[0].to_dict()
+#         print(f"DEBUG: Full document data: {users_doc}") # Add this line
+#         stored_password = users_doc.get('password')
+
+#         print(stored_password)
+
+#         return stored_password == self.password
 
 class CheckEmailCommand(CheckCommand):
     """
@@ -128,3 +168,4 @@ class WordFilter(CheckCommand):
         else:
             print("ok yeah this works")
             return True
+
