@@ -12,13 +12,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  int _currentPage = 0;
+  int _currentPage = 1;
 
   @override
   Widget build(BuildContext context) {
     final pages = [
       LoginWidget(onSwitchToRegister: () => setState(() => _currentPage = 1)),
-      RegisterWidget(onSwitchToLogin: () => setState(() => _currentPage = 0)),
+      RegisterWidget(onSwitchToLogin: () => setState(() => _currentPage =0)),
     ];
 
     return Scaffold(
