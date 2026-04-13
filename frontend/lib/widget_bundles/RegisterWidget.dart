@@ -31,7 +31,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': "Api-Key ho4f2fm2.WYyNAfuaYikL9QvUycDIz41FD1G18zEc",
+          'Authorization': "Api-Key nwwYC7dT.hkq3lSJLTMKnUVPUufOvSNaw8ksBrjQw",
         },
         body: jsonEncode({'email': email, 'username': username, 'password': password}),
       );
@@ -162,7 +162,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                         if (confirm) {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (_) => HomePage(username: 'placeholder',cesPoints:  1)),
+                            MaterialPageRoute(builder: (_) =>LoginWidget(onSwitchToRegister: () => setState(() => 1)),),
                           );
                         }
                       },
