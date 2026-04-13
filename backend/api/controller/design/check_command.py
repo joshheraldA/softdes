@@ -48,12 +48,13 @@ class CheckCommand(ABC):
 
 class CheckEmailCommand(CheckCommand):
     """
-    Check the email to see if its a valid email
+    A class that checks email
+
+    This class manages the email addresses to see if certain 
+    conditions is satisfied 
+
     Attributes:
-        email (str, required): the email you want to verify
-    Methods: 
-        execute(email: str) -> bool:
-            executes its command to check if conditions satisfy. If satisfiees, it returns True, False otherwise
+        email (str): The email address of the account
     """
     def __init__(self, email : str) -> None:
 
@@ -61,11 +62,16 @@ class CheckEmailCommand(CheckCommand):
     
     def execute(self) -> bool:
         """
-            Execute the individual command of each subcommands
-            Args:
-                None
-            Returns:
-             bool: Chcek if conditions are met
+        checks if the email addrss is a USC account
+
+        This class implements a command pattern. It checks if the email address being pass contains **@usc.edu.ph**
+
+        Args:
+            None
+        
+        Returns
+            bool: if th @usc.edu.ph is found inside the email address, False otherwise
+        
         """
         if "@usc.edu.ph" in self.email:
             print(f"{self.email} is a valid email")
@@ -80,12 +86,6 @@ class Invoker:
 
     Attributes: 
         _command (CheckCommand): The internal storage for the assigned command.   
-
-    Methods:
-        set_command(command: CheckCommand) -> bool: 
-            sets the CheckCommand that invoker is gonna invoke
-        execute_command(None) -> bool: 
-            execute the CheckCommand that the invoker is assigned to. Returns False there is no command assigned to it  
     """
     def __init__(self):
 
@@ -93,7 +93,7 @@ class Invoker:
     
     def set_command(self, command : CheckCommand) -> bool: 
         """
-            Set the typ of command you want
+            Set the type of command you want
 
             Args:
                 command (CheckCommand, required): the command you want the invoker to invoke

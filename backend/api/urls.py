@@ -1,10 +1,12 @@
 from django.urls import path
+
 from api.controller import user
 
 
 urlpatterns = [
     path('post-user/', user.create_user, name='user'),
     path('signed-in/', user.fetch_user_data, name='fetch_user_data'),
+
 ]
 
     # path('put-user/<int:idNum>/', views.put_user, name='put'),

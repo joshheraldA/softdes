@@ -2,10 +2,14 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
 
-from firebase_admin import auth
+from firebase_admin import auth, firestore
 
 from api.firebase import db
 from api.permission import AdminPermissions
+
+from django.http import JsonResponse
+from django.views import View
+import requests
 
 
 from .design.check_command import CheckEmailCommand, CheckUsernameCommand
@@ -62,34 +66,49 @@ def create_user(request):
     }, status=status.HTTP_201_CREATED)
 
 
-@api_view(['POST'])
 @permission_classes([AdminPermissions])
+@api_view(['GET'])
 def fetch_user_data(request): # this function will return user data after signing in.
-    data = request.data
+    email = request.GET.get("email")
+    password = request.GET.get("password")
 
-    if not data.get('id'):
-        return Response({
-            'success': False,
-            'message': "NEED ID"
-        }, status=status.HTTP_400_BAD_REQUEST)
-    uid = data['id']
-    
+    if not email or not password:
+        return JsonResponse({"error": "Email and password are required."}, status=400)
+
+    api_key = "AIzaSyB1KqVKH_GsRbaEC5XOrIbRHUdKSGpp3LE"
+    firebase_url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key={api_key}"
+
+    payload = {
+        "email": email,
+        "password": password,
+        "returnSecureToken": True,
+    }
+
+    firebase_response = requests.post(firebase_url, json=payload)
+    firebase_data = firebase_response.json()
+
+    if firebase_response.status_code != 200:
+        error_message = firebase_data.get("error", {}).get("message", "Authentication failed.")
+        return JsonResponse({"error": error_message}, status=401)
+
+    uid = firebase_data.get("localId")
+    id_token = firebase_data.get("idToken")
+    print(uid)
+
+    # Step 2: Fetch user data from Firestore
     users_ref = db.collection('users')
     query = users_ref.where('id', '==', uid).limit(1).get()
 
     if not query:
+        return JsonResponse({"error": "User data not found in Firestore."}, status=404)
 
-        return Response({
-            'success': False,
-            'message': 'User not found'
-        }, status=status.HTTP_404_NOT_FOUND)
-    
     user_data = query[0].to_dict()
-    print(user_data)
-    return Response({
-        'success': True,
-        'data': user_data
-    }, status=status.HTTP_200_OK)
+    return JsonResponse({
+        "message": "Sign in successful.",
+        "uid": uid,
+        "idToken": id_token,
+        "data": user_data,
+    }, status=200)
 
 
 
@@ -132,3 +151,4 @@ def fetch_user_data(request): # this function will return user data after signin
 #     })
 
 #     return Response({"id": doc_ref.id, "message": "User created"}, status=201)
+
