@@ -93,7 +93,7 @@ class Invoker:
     
     def set_command(self, command : CheckCommand) -> bool: 
         """
-            Set the typ of command you want
+            Set the type of command you want
 
             Args:
                 command (CheckCommand, required): the command you want the invoker to invoke

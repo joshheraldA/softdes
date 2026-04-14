@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/firebase_options.dart';
+import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/pages/LoginPage.dart';
+// import 'package:frontend/pages/LoginPage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,7 +24,8 @@ class MyApp extends StatelessWidget {
     useMaterial3: true,
   ),
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      // home: HomePage(username: "joshywoshy", cesPoints: 0),
+      home: LoginPage()
     );
   }
 }

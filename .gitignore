@@ -12,3 +12,5 @@ __pycache__/
 
 # Flutter/Dart
 frontend/lib/firebase/google-services.json
+
+backend/api/firebase.py

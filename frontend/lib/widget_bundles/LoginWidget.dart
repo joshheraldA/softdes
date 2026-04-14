@@ -29,7 +29,7 @@ class _RegisterWidgetState extends State<RegisterWidget> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': "Api-Key nwwYC7dT.hkq3lSJLTMKnUVPUufOvSNaw8ksBrjQw",
+          'Authorization': "Api-Key 4FHvOVXv.ren3QahjIbOAQ8Y3HhCAh1AKT8zmlHBh",
         },
         body: jsonEncode({'id': user_id}),
       );

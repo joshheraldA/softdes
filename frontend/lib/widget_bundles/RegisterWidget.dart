@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/pages/HomePage.dart';
+// import 'package:frontend/pages/HomePage.dart';
 import 'package:frontend/widgets/FancyButton.dart';
 import 'package:frontend/widgets/FancyHeader.dart';
 import 'package:frontend/widgets/FancyTextField.dart';
@@ -31,7 +31,7 @@ class _LoginWidgetState extends State<LoginWidget> {
         url,
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': "Api-Key nwwYC7dT.hkq3lSJLTMKnUVPUufOvSNaw8ksBrjQw",
+          'Authorization': "Api-Key 4FHvOVXv.ren3QahjIbOAQ8Y3HhCAh1AKT8zmlHBh",
         },
         body: jsonEncode({'email': email, 'username': username, 'password': password}),
       );

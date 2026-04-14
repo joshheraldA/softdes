@@ -10,10 +10,6 @@ from rest_framework_api_key.permissions import BaseHasAPIKey
 
 from random import randint
 
-# k2Fnz6QF.FX4vHYnZBKjgnL8r9NPCpQFGs3uCqrIY - Admin
-# iNgApKUo.prslIn0uQgJIDbabJMxD5RxCZnNirAKl - User
-
-
 class HasLeveledAPIKey(BaseHasAPIKey):
     model = LeveledApiKey
 
