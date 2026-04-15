@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from typing import Optional
+
 from api.firebase import db
 from firebase_admin import auth
 class CheckCommand(ABC):
@@ -129,28 +131,41 @@ class CheckUsernameCommand(CheckCommand):
         return filter_command.execute()
     
 class WordFilter(CheckCommand):
-    with open("FORBIDDENWORDSLIST.txt", "r") as file:
-        temp = file.readlines()
-    """this reads from the forbiddenwordslist file line by line"""
-    FORBIDDEN_WORDS = [word.strip() for word in temp]
-    """this makes it so the whitespaces and the newlines disappear and shi"""
+    """
+    This filters words based on what is passed
 
+    Attributes:
+        text (str): This a text that you want to limit
+        FORBIDDEN WORDS ([str]): List of forbidden words that the text cannot have
+    """
    
-    def __init__(self, delimiter : str, texts : str):
-        self.delimiter = delimiter
-        self.forbiddenWords = [word.lower() for word in WordFilter.FORBIDDEN_WORDS]
+    def __init__(self, texts : str):
+        self.forbiddenWords = self.extract_word_file()
         self.text = texts
 
-    def extract(self, text : str) -> str:
-        """This thing just extracts whatever comes before the delimiter and stuff"""
-        index = text.find(self.delimiter)
-        """If it finds the delimiter in the passed string, it will return an index to where the delimiter is and then it will return everything before the index
-            if it cant find the delimiter it just passes the entire string raw and unchanged
+    def extract_word_file() -> list:
+        with open("FORBIDDENWORDSLIST.txt", "r") as file:
+            temp = file.readlines()
+        
+        FORBIDDEN_WORDS = [word.strip() for word in temp]
+        return FORBIDDEN_WORDS
+
+    def delimiter(self, delimiter: str) -> Optional[str]:
         """
+            This method delimits the email to its userename
+
+            Args:
+                delimiter (str): the index to where you limit th text
+
+            Returns:
+            str
+        """
+        index = (self.text).find(self.delimiter)
+
         if index != -1:
-            return text[:index]
+            return self.text[:index]
         else:
-            return text
+            return None
         
     def hasForbiddenWord(self, text : str) -> bool:
         """checks if the seperated partition is free from slurs, if free then it will return true otherwise false"""
